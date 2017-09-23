@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微信打飞机</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/loading.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div class="loadingWrap">
+        <div id="loading"></div>
+    </div>
+    <div class="startWrap">
+        <div class="startPage">
+            <button id="startBtn">开始游戏</button>
+        </div>
+    </div>
+    <div class="gameWrap">
+        <div class="gamePage">
+            <div class="p1_mark" id="ranking">
+                <img class="close" src="img/close.png" alt="">
+                <div class="ranking_wrap">
+                    <ul>
+                        <li>
+                            <img class="title_img" src="img/longyun.png">
+                            <span class="user_name">绿帽龙云</span>
+                            <span class="point">一种自带绿色效果的生物,要是不小心碰到他之后,会使自己变绿,内心受到伤害,所以血量也会减一,重复加可能会有意想不到的效果哟!</span>
+                        </li>
+                        <li>
+                            <img class="title_img" src="img/linshao.png">
+                            <span class="user_name">骚骚霖少</span>
+                            <span class="point">获取霖少后,提升机身各种属性,并拥有双排子弹</span>
+                        </li>
+                        <li>
+                            <span class="rank"></span>
+                            <img class="title_img" src="img/dingyun.png">
+                            <span class="user_name">少女顶雲</span>
+                            <span class="point">能获得超强草莓子弹,子弹攻击力为10000,所向披靡</span>
+                        </li>
+                        <li>
+                            <span class="rank"></span>
+                            <img class="title_img" src="img/caiyege.png">
+                            <span class="user_name">无敌菜也哥</span>
+                            <span class="point">捕获菜也哥后,可以获得1~2个的核武器,并存储在你的机身中,点击右下角使用核武器,进行一次全屏大扫荡</span>
+                        </li>
+                        <li>
+                            <span class="rank"></span>
+                            <img class="title_img" src="img/qiubite.png">
+                            <span class="user_name">丘比特</span>
+                            <span class="point">由上帝亲自创造的丘比特,获得后使血量加一</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <canvas id="canvas" width="320" height="528"></canvas>
+            <p id="scoreP">0分</p>
+            <div class="bloods">
+
+            </div>
+            <div class="prompt">
+                无补给,当前血量:3
+            </div>
+        </div>
+    </div>
+    <div class="p1_mark" id = "defeatWrap">
+        <img class="defeat" src="img/defeat.png" alt="">
+    </div>
+    <div class="endWrap">
+        <p id="result"></p>
+        <div id="again"></div>
+    </div>
+</div>
+</body>
+</html>
