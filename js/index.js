@@ -3,14 +3,26 @@
  */
 
 
-$(function () {
+window.onload = function () {
 
     let score = 0;              //分数
+    let startBtn = document.querySelector('#startBtn')
+    let startWrap = document.querySelector('.startWrap')
+    let gameWrap = document.querySelector('.gameWrap')
+    let close = document.querySelector('.close')
+    let ranking = document.querySelector('#ranking')
+    let loadingP = document.querySelector('#loading')
+    let loadingWrap = document.querySelector('.loadingWrap')
+    let defeatWrap = document.querySelector('#defeatWrap')
+    let endWrap = document.querySelector('.endWrap')
+    let resultP = document.querySelector('#result')
+    let again = document.querySelector('#again')
     // loading预加载
     let imgObjs;    //定义对象用于储存所有img
     loading({
         imgs: {
             background: 'img/background.png',
+            loading: 'img/loading.gif',
             bomb: 'img/bomb.png',
             bullet1: 'img/bullet1.png',
             bullet2: 'img/bullet2.png',
@@ -32,15 +44,20 @@ $(function () {
             gameover: 'img/gameover.jpg',
             linshao: 'img/linshao.png',
             longyun: 'img/longyun.png',
-            qiubite: 'img/qiubite.png'
+            qiubite: 'img/qiubite.png',
+            enemy1Small: 'img/enemy1Small.png',
+            enemy2Small: 'img/enemy2Small.png',
+            enemy3Small: 'img/enemy3Small.png',
+
         },
         // 监听进度的
         prog: function (num) {
-            $('#loading').html(num + "%");
+
+            loadingP.innerHTML = num + "%"
         },
         complete: function (imgs) {
             imgObjs = imgs
-            $('.loadingWrap').hide();
+            loadingWrap.style.display = 'none'
         }
     })
 
@@ -50,15 +67,14 @@ $(function () {
         tapStart = isTap ? "touchstart" : "mousedown",
         tapMove = isTap ? "touchmove" : "mousemove",
         tapEnd = isTap ? "touchend" : "mouseup"
-
-    //点击开始按钮开始游戏
-    $('#startBtn').on(tapStart, function () {
-        $('.startWrap').hide(300)
-        $('.gameWrap').show(300)
+    console.log(tapStart);
+    startBtn.addEventListener(tapStart,function () {
+        console.log('a');
+        startWrap.style.display = 'none'
+        gameWrap.style.display = 'block'
     })
-    //点击关闭按钮,关闭游戏规则
-    $('.close').on(tapStart, function () {
-        $(this).parent().hide(300)
+    close.addEventListener(tapStart,function () {
+        ranking.style.display = 'none'
         _init()
     })
     function _init() {
@@ -85,6 +101,7 @@ $(function () {
         let bulletAtk = 1;          //定义飞机子弹类型的攻击力
         let bombNum = 0;            //定义炸弹的个数
         let getBomb = false         //定义判断是否获取到炸弹
+        let isGreen = false         //定义判断飞机是否是绿色
         let bullets = [],           //飞机子弹数组
             enemy1s = [],           //敌机数组
             enemy1Bullets = [],     //敌机子弹数组
@@ -140,7 +157,7 @@ $(function () {
          * @param iX    飞机在上一次绘制时的横纵坐标
          * @param iY
          */
-        plane.move = function (iX, iY) {
+        plane.move = function (iX, iY, frame) {
 
             //更新飞机的横纵坐标
             this.iX = iX - this.w / 2
@@ -159,6 +176,7 @@ $(function () {
             if (this.iY >= cH - this.h) {
                 this.iY = cH - this.h
             }
+
         }
         /**
          * 飞机爆炸
@@ -200,7 +218,6 @@ $(function () {
                 createBlood()
             }
         }
-
         /**
          * 定义函数创建飞机血量条
          */
@@ -232,7 +249,7 @@ $(function () {
             } else if (this.mold === 2) {
                 img = bulletImg2
                 bulletAtk = 2
-                iX = plane.iX + 20
+                iX = plane.iX + 10
             } else if (this.mold === 3 ) {
                 img = bulletImg3
                 bulletAtk = 10000
@@ -254,9 +271,6 @@ $(function () {
          */
         Bullet.prototype.draw = function () {
             this.iY -= this.h;
-            // if(bulletMold === 1) {
-            //
-            // }
             ctx.drawImage(this.img, this.x, this.y, this.w, this.h, this.iX, this.iY, this.w, this.h)
         }
         //获取敌机1图片
@@ -267,11 +281,10 @@ $(function () {
         /**
          * 一个创建敌机的构造函数
          * @constructor
-         * @param chance 生成不同敌机的概率
          */
-        function Enemy1(chance) {
-
-            //敌机类型, 敌机宽, 高, 敌机速度, 敌机血量, 敌机是否被击中, 击中敌机加的分数
+        function Enemy1() {
+            let chance = randomInt(0, 100)
+            //敌机类型, 敌机宽, 高, 敌机速度, 敌机血量, 击中敌机加的分数
             let enemyImg, imgW, imgH, speed, blood, mold, isRect, score
             //判断概率
             if (chance >= 0 && chance <= 60) {
@@ -287,7 +300,7 @@ $(function () {
                 imgW = 46
                 imgH = 64
                 speed = 3
-                blood = 3
+                blood = 50
                 mold = 2
                 score = 3
             } else {
@@ -295,7 +308,7 @@ $(function () {
                 imgW = 110
                 imgH = 164
                 speed = 2
-                blood = 2505
+                blood = 100
                 mold = 3
                 score = 5
             }
@@ -309,10 +322,10 @@ $(function () {
             this.speedY = speed
             this.blood = blood
             this.mold = mold
-            this.isRect = false
             this.score = score
+            this.isRect = false         //敌机是否被击中, 但不确定敌机血量是不是为0
+            this.isRemove = false       //敌机是否要被移除
         }
-
         /**
          * 绘制敌机
          */
@@ -323,15 +336,30 @@ $(function () {
          * 敌机移动
          */
         Enemy1.prototype.move = function () {
-            this.iY += this.speedY
-        }
+            if(!this.isRemove) {
+                this.iY += this.speedY
+            }
 
+        }
+        /**
+         * 敌机爆炸
+         */
         Enemy1.prototype.boom = function () {
+            //当前敌机的血量 = 当前敌机的血量 - 当前子弹的攻击力
             this.blood -= bulletAtk;
-            this.x += this.w
-            this.x += this.w
-            if (this.x >= this.img.width - this.w) {
-                this.x = this.img.width - this.w
+
+            if(this.blood <= 0) {           //检测当前的敌机血量是不是为0
+                this.isRemove = true        //为0时激活移除当前敌机的属性
+                this.x += this.w
+                if (this.x >= this.img.width - this.w) {
+                    this.x = this.img.width - this.w
+                }
+
+            } else {                        //血量不为0时
+                this.x += this.w
+                if(this.x >= this.w * 4 ) {
+                    this.x = this.w * 4
+                }
             }
         }
         //获取敌机子弹图片
@@ -374,22 +402,23 @@ $(function () {
         //获取补给包
         let propImg = imgObjs.prop2
         class Prop{
-            constructor(chance){
+            constructor(){
+                let chance = randomInt(0, 100)
                 //补给包的类型, 图片截取的位置(x,y)坐标, 一张图片截取的宽高,
                 let mold, x, w = 100, h = 157 ;
-                if(chance >= 0 && chance <= 20 ){
+                if(chance >= 0 && chance <= 40 ){
                     mold = 1
                     x = 0
-                } else if (chance >=21 && chance <= 40 ) {
+                } else if (chance >=41 && chance <= 70 ) {
                     mold = 2
                     x = w
-                } else if ( chance >= 41 && chance <= 60 ) {
+                } else if ( chance >= 71 && chance <= 80 ) {
                     mold = 3
                     x = w * 2
-                } else if ( chance >= 61 && chance <= 80 ) {
+                } else if ( chance >= 81 && chance <= 90 ) {
                     mold = 4
                     x = w * 3
-                } else if ( chance >= 81 && chance <= 100) {
+                } else if ( chance >= 91 && chance <= 100) {
                     mold = 5
                     x = w * 4
                 }
@@ -437,7 +466,6 @@ $(function () {
                 ctx.drawImage(this.img, this.x, this.y, this.w, this.h, this.iX, this.iY, this.w, this.h)
             }
         }
-
         let isDown = false  //判断鼠标是否按下
         let arrPointer = [] //用以储存鼠标每次移动时的坐标
         let pointerX = 0    //鼠标的x坐标
@@ -445,6 +473,7 @@ $(function () {
         
         //监听飞机的按下事件
         canvas.addEventListener(tapStart, function (e) {
+
 
             pointerX = isTap ? e.targetTouches[0].pageX - wrap.offsetLeft : e.clientX - wrap.offsetLeft
             pointerY = isTap ? e.targetTouches[0].pageY - wrap.offsetTop : e.clientY - wrap.offsetTop
@@ -457,6 +486,10 @@ $(function () {
                 isDown = true
                 arrPointer.push([pointerX, pointerY])
                 plane.move(pointerX, pointerY)
+                if(isTap) {
+                    e.preventDefaults()
+                }
+
             }
             //判断按下的位置在不在炸弹的范围内
             for(let i = 0; i < bombs.length; i++ ) {
@@ -472,6 +505,7 @@ $(function () {
         })
         //监听画布的移动事件
         canvas.addEventListener(tapMove, function (e) {
+
             if (isDown) {
                 pointerX = isTap ? e.targetTouches[0].pageX - wrap.offsetLeft : e.clientX - wrap.offsetLeft
                 pointerY = isTap ? e.targetTouches[0].pageY - wrap.offsetTop : e.clientY - wrap.offsetTop
@@ -482,6 +516,7 @@ $(function () {
 
         //监听画布的抬起事件
         canvas.addEventListener(tapEnd, function (e) {
+
             isDown = false
             arrPointer = []
         })
@@ -504,8 +539,7 @@ $(function () {
             }
             //制造出敌机1
             if (frame % 50 === 0) {
-                let chance1 = randomInt(0, 100)
-                let enemy1 = new Enemy1(chance1)
+                let enemy1 = new Enemy1()
                 enemy1s.push(enemy1)
             }
             //制造出敌机子弹
@@ -517,8 +551,7 @@ $(function () {
             }
             //制造出补给包
             if ( frame % 200 === 0 ){
-                let chance2 = randomInt(0, 100)
-                let prop = new Prop(chance2)
+                let prop = new Prop()
                 props.push(prop)
             }
 
@@ -566,6 +599,14 @@ $(function () {
             for (let i = 0; i < bombs.length; i++ ) {
                 bombs[i].draw()
             }
+            if(isGreen) {
+                plane.x = 0
+                if(frame % 180 === 0 ) {
+                    plane.x = plane.w
+                    isGreen = false
+                }
+            }
+
             if (frame > 10000) {
                 frame = 0
             }
@@ -593,7 +634,6 @@ $(function () {
                 }
             }
         }
-
         /**
          * 定义函数,判断飞机子弹是否与物体相撞
          * @returns {boolean}
@@ -617,19 +657,22 @@ $(function () {
                 for (let i = 0; i < enemy1s.length; i++) {  //遍历所有敌机
                     if (enemy1s[i].isRect) {                //若是激活了碰撞属性的敌机
                         enemy1s[i].boom()                   //调用敌机爆炸函数
-                        if (frame % 50 === 0) {             //当帧数到达50时
-                            if(enemy1s[i].blood <= 0) {
+                        if(enemy1s[i].isRemove) {           //检测当前的敌机是不是满足血量为0可以移除的条件
+                            if (frame % 10 === 0) {             //当帧数到达50时
                                 score += enemy1s[i].score       //加上碰撞的敌机对应的分数
                                 enemy1s.splice(i, 1)            //将当前这个敌机从原数组中删除
                                 i--
                                 scoreP.innerHTML = score + '分'  //显示分数
                                 isEnemyRect = false
                             }
-
+                        } else {                            //血量还没有为0的敌机执行以下
+                            if (frame % 20 === 0 ) {
+                                enemy1s[i].x = 0
+                                isEnemyRect = false
+                            }
                         }
                     }
                 }
-                // isEnemyRect = false
             }
         }
 
@@ -683,13 +726,12 @@ $(function () {
                         animate = null
                         gameOVer()
                     }
-                    plane.x -= plane.w
+
                     plane.blood--
                     plane.boom()
+                    // plane.x = 0
                     prompt.innerHTML = '获得"龙云",当前血量为' + plane.blood
-                    if(frame % 60 === 0 ) {
-                        plane.x = plane.w
-                    }
+                    isGreen = true
                 }
             } else if (mold === 2 ) {
                 bulletMold = 2
@@ -773,16 +815,17 @@ $(function () {
         function gameOVer() {
             console.log('gameOver');
             isDown = false
+            gameWrap.style.display = 'none'
+            defeatWrap.style.display = 'block'
             $('.gameWrap').hide()
             $('#defeatWrap').show()
         }
-        $('#defeatWrap').on(tapStart,function () {
-            $(this).hide()
-            $('.endWrap').show()
-            console.log(score);
-            $('#result').html("最终得分为:" + score)
+        defeatWrap.addEventListener(tapStart, function () {
+            this.style.display = 'none'
+            endWrap.style.display = 'block'
+            resultP.innerHTML = '最终得分为:'+ score
         })
-        $('#again').on(tapStart,function () {
+        again.addEventListener(tapStart, function () {
             location.reload()
         })
         //定义取范围内的随机数
@@ -790,4 +833,4 @@ $(function () {
             return parseInt(Math.random() * (to - from + 1) + from);
         }
     }
-})
+}
