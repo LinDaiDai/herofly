@@ -21,68 +21,10 @@
             <button id="startBtn">开始游戏</button>
         </div>
     </div>
+    <canvas id="canvas"></canvas>
     <div class="gameWrap">
         <div class="gamePage">
-            <div class="p1_mark" id="ranking">
-                <img class="close" src="img/close.png" alt="">
-                <div class="ranking_wrap">
-                    <ul>
-                        <li>
-                            <img class="title_img" src="img/longyun.png">
-                            <span class="user_name">绿帽龙云</span>
-                            <span class="point">一种自带绿色效果的生物,要是不小心碰到他之后,会使自己变绿,内心受到伤害,所以血量也会减一,重复加可能会有意想不到的效果哟!</span>
-                        </li>
-                        <li>
-                            <img class="title_img" src="img/linshao.png">
-                            <span class="user_name">骚骚霖少</span>
-                            <span class="point">获取霖少后,提升机身各种属性,并拥有双排子弹</span>
-                        </li>
-                        <li>
-                            <span class="rank"></span>
-                            <img class="title_img" src="img/dingyun.png">
-                            <span class="user_name">少女顶雲</span>
-                            <span class="point">能获得超强草莓子弹,子弹攻击力为10000,所向披靡</span>
-                        </li>
-                        <li>
-                            <span class="rank"></span>
-                            <img class="title_img" src="img/caiyege.png">
-                            <span class="user_name">无敌菜也哥</span>
-                            <span class="point">捕获菜也哥后,可以获得1~2个的核武器,并存储在你的机身中,点击右下角使用核武器,进行一次全屏大扫荡</span>
-                        </li>
-                        <li>
-                            <span class="rank"></span>
-                            <img class="title_img" src="img/qiubite.png">
-                            <span class="user_name">丘比特</span>
-                            <span class="point">由上帝亲自创造的丘比特,获得后使血量加一</span>
-                        </li>
-                        <li>
-                            <span class="rank"></span>
-                            <img class="title_img" src="img/enemy1Small.png">
-                            <span class="user_name">敌机1</span>
-                            <span class="point">敌军中的炮灰小兵,血量只有1哟</span>
-                        </li>
-                        <li>
-                            <span class="rank"></span>
-                            <img class="title_img" src="img/enemy2Small.png">
-                            <span class="user_name">敌机2</span>
-                            <span class="point">敌军中的侦查军,血量2点</span>
-                        </li>
-                        <li>
-                            <span class="rank"></span>
-                            <img class="title_img" src="img/enemy3Small.png">
-                            <span class="user_name">敌机3</span>
-                            <span class="point">敌军中较为精英的存在,坚硬的护甲使的它有超强的防御力,血量已经达到2050</span>
-                        </li>
-                        <li>
-                            <span class="rank"></span>
-                            <img class="title_img" src="img/loading.gif">
-                            <span class="user_name">注意</span>
-                            <span class="point">碰到敌军子弹时,血量减一,但是碰到敌军敌机时可是要直接gameover的哟!另外,点击炸弹的时候可是考验你手速的时候啦!哈哈</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <canvas id="canvas" width="320" height="528"></canvas>
+
             <p id="scoreP">0分</p>
             <div class="bloods">
 
@@ -92,12 +34,72 @@
             </div>
         </div>
     </div>
+    <div class="p1_mark" id="ranking">
+        <img class="close" src="img/close.png" alt="">
+        <div class="ranking_wrap">
+            <ul>
+                <li>
+                    <img class="title_img" src="img/longyun.png">
+                    <span class="user_name">绿帽龙云</span>
+                    <span class="point">一种自带绿色效果的生物,要是不小心碰到他之后,会使自己变绿,内心受到伤害,所以血量也会减一,重复加可能会有意想不到的效果哟!</span>
+                </li>
+                <li>
+                    <img class="title_img" src="img/linshao.png">
+                    <span class="user_name">骚骚霖少</span>
+                    <span class="point">获取霖少后,提升机身各种属性,并拥有双排子弹</span>
+                </li>
+                <li>
+                    <span class="rank"></span>
+                    <img class="title_img" src="img/dingyun.png">
+                    <span class="user_name">少女顶雲</span>
+                    <span class="point">能获得超强草莓子弹,子弹攻击力为10000,所向披靡</span>
+                </li>
+                <li>
+                    <span class="rank"></span>
+                    <img class="title_img" src="img/caiyege.png">
+                    <span class="user_name">无敌菜也哥</span>
+                    <span class="point">捕获菜也哥后,可以获得1~2个的核武器,并存储在你的机身中,点击右下角使用核武器,进行一次全屏大扫荡</span>
+                </li>
+                <li>
+                    <span class="rank"></span>
+                    <img class="title_img" src="img/qiubite.png">
+                    <span class="user_name">丘比特</span>
+                    <span class="point">由上帝亲自创造的丘比特,获得后使血量加一</span>
+                </li>
+                <li>
+                    <span class="rank"></span>
+                    <img class="title_img" src="img/enemy1Small.png">
+                    <span class="user_name">敌机1</span>
+                    <span class="point">敌军中的炮灰小兵,血量只有1哟</span>
+                </li>
+                <li>
+                    <span class="rank"></span>
+                    <img class="title_img" src="img/enemy2Small.png">
+                    <span class="user_name">敌机2</span>
+                    <span class="point">敌军中的侦查军,血量2点</span>
+                </li>
+                <li>
+                    <span class="rank"></span>
+                    <img class="title_img" src="img/enemy3Small.png">
+                    <span class="user_name">敌机3</span>
+                    <span class="point">敌军中较为精英的存在,坚硬的护甲使的它有超强的防御力,血量已经达到2050</span>
+                </li>
+                <li>
+                    <span class="rank"></span>
+                    <img class="title_img" src="img/loading.gif">
+                    <span class="user_name">注意</span>
+                    <span class="point">碰到敌军子弹时,血量减一,但是碰到敌军敌机时可是要直接gameover的哟!另外,点击炸弹的时候可是考验你手速的时候啦!哈哈</span>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="p1_mark" id = "defeatWrap">
         <img class="defeat" src="img/defeat.png" alt="">
     </div>
     <div class="endWrap">
         <p id="result"></p>
-        <div id="again"></div>
+        <img src="img/again.png" alt="" id="again">
+        <img src="img/gameRanking.png" alt="" id="gameRanking">
     </div>
 </div>
 </body>

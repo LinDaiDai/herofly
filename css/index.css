@@ -3,9 +3,14 @@
     margin: 0;
     list-style: none;
 }
+html,body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 .wrap{
-    width: 320px;
-    height: 528px;
+    width: 100%;
+    height: 100%;
     position: relative;
     margin: 10px auto;
 }
@@ -47,7 +52,8 @@
 .startWrap{
     background-image:url("../img/startBackground.png");
     background-repeat: no-repeat;
-    /*display: none;*/
+    background-size: 100% 100%;
+    display: none;
 }
 .startPage{
     position: relative;
@@ -70,18 +76,22 @@
 }
 .hint{
     position: absolute;
-    left: 23%;
+    /*left: 50%;*/
     bottom: 40%;
-    width: 65%;
-    height: 7%;
+    /*width: 65%;*/
+    /*height: 7%;*/
     font-size: 12px;
     color: #640200;
     font-weight: bold;
+    text-align: center;
+    /*margin: 0 300px;*/
 }
 .gameWrap{
     display: none;
 }
 .gamePage{
+    width: 100%;
+    height: 100%;
    position: relative;
 }
 .p1_mark{
@@ -93,12 +103,16 @@
     background: rgba(0,0,0,0.7);
     z-index: 2;
     font-size: 14px;
+    display: none;
 }
 .close{
     position: absolute;
     right: 5%;
     top: 15%;
     width: 6.6875%;
+}
+#canvas{
+    display: none;
 }
 .ranking_wrap{
     position: absolute;
@@ -179,21 +193,20 @@
     margin: 40% auto;
 }
 .endWrap{
-    background: url("../img/gameover.jpg") no-repeat;
+    background: url("../img/gameover.png") no-repeat;
     background-size: 100%;
     display: none;
 }
-#again{
+#gameRanking{
     position: absolute;
-    width: 35%;
-    height: 8%;
-    top: 58%;
-    left: 34%;
-    border-radius: 25%;
+    display: block;
+    top: 3%;
+    left: 0;
+
 }
 #result{
     position: absolute;
-    top: 48%;
+    top: 45%;
     left: 0;
     width: 100%;
     height: 8%;
@@ -203,3 +216,13 @@
     text-align: center;
     z-index: 3;
 }
+#again{
+    display: block;
+    position: absolute;
+    width: 35%;
+    height: 8%;
+    top: 58%;
+    left: 34%;
+    border-radius: 25%;
+}
+

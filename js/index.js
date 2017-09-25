@@ -4,7 +4,8 @@
 
 
 window.onload = function () {
-
+    let windowW = document.body.clientWidth
+    let windowH = document.body.clientHeight
     let score = 0;              //分数
     let startBtn = document.querySelector('#startBtn')
     let startWrap = document.querySelector('.startWrap')
@@ -13,10 +14,13 @@ window.onload = function () {
     let ranking = document.querySelector('#ranking')
     let loadingP = document.querySelector('#loading')
     let loadingWrap = document.querySelector('.loadingWrap')
+    let gameRanking = document.querySelector('#gameRanking')
     let defeatWrap = document.querySelector('#defeatWrap')
     let endWrap = document.querySelector('.endWrap')
     let resultP = document.querySelector('#result')
     let again = document.querySelector('#again')
+    let hint = document.querySelector('.hint')
+    let event;
     // loading预加载
     let imgObjs;    //定义对象用于储存所有img
     loading({
@@ -41,7 +45,9 @@ window.onload = function () {
             close: 'img/close.png',
             defeat: 'img/defeat.png',
             dingyun: 'img/dingyun.png',
-            gameover: 'img/gameover.jpg',
+            gameover: 'img/gameover.png',
+            gameRanking: 'img/gameRanking.png',
+            again: 'img/again.png',
             linshao: 'img/linshao.png',
             longyun: 'img/longyun.png',
             qiubite: 'img/qiubite.png',
@@ -58,6 +64,8 @@ window.onload = function () {
         complete: function (imgs) {
             imgObjs = imgs
             loadingWrap.style.display = 'none'
+            startWrap.style.display = 'block'
+            hint.style.left = windowW / 2 - hint.offsetWidth / 2 + 'px'
         }
     })
 
@@ -67,14 +75,14 @@ window.onload = function () {
         tapStart = isTap ? "touchstart" : "mousedown",
         tapMove = isTap ? "touchmove" : "mousemove",
         tapEnd = isTap ? "touchend" : "mouseup"
-    console.log(tapStart);
     startBtn.addEventListener(tapStart,function () {
-        console.log('a');
         startWrap.style.display = 'none'
-        gameWrap.style.display = 'block'
+        ranking.style.display = 'block'
     })
     close.addEventListener(tapStart,function () {
         ranking.style.display = 'none'
+        gameWrap.style.display = 'block'
+        canvas.style.display = 'block'
         _init()
     })
     function _init() {
@@ -83,10 +91,10 @@ window.onload = function () {
         let scoreP = document.querySelector('#scoreP')
         let bloods = document.querySelector('.bloods')
         let prompt = document.querySelector('.prompt')
-        let windowW = document.body.clientWidth
-        let windowH = document.body.clientHeight
-        let canvas = document.querySelector('#canvas')
 
+        let canvas = document.querySelector('#canvas')
+        canvas.width = windowW
+        canvas.height = windowH
         let cW = canvas.width,
             cH = canvas.height,
             ctx = canvas.getContext('2d')
@@ -109,14 +117,13 @@ window.onload = function () {
             bombs = []              //炸弹数组
         //获取背景图片
         let backImg = imgObjs.background
-        // backImg.src = "img/background.png"
         // 背景
         let back = {
             img: backImg,
             x: 0,   //从什么位置开始截取图片
             y: 0,
-            w: cW,  //截取图片的宽高
-            h: cH,
+            w: backImg.width,  //截取图片的宽高
+            h: backImg.height,
             // 在canvas中的纵向(y)坐标
             iY: 0
         }
@@ -127,8 +134,8 @@ window.onload = function () {
             }
         }
         back.draw = function () {
-            ctx.drawImage(back.img, back.x, back.y, back.w, back.h, 0, back.iY, back.w, back.h)
-            ctx.drawImage(back.img, back.x, back.y, back.w, back.h, 0, back.iY - back.h / 2, back.w, back.h)
+            ctx.drawImage(back.img, back.x, back.y, back.w,back.h , 0, back.iY,cW, cH)
+            ctx.drawImage(back.img, back.x, back.y, back.w, back.h, 0, back.iY - back.h / 2, cW, cH)
         }
 
         //获取飞机图片
@@ -144,7 +151,9 @@ window.onload = function () {
             iX: cW * 0.4,
             iY: cH * 0.7,
             blood: 3,
-            isGet : 0
+            isGet : 0,
+            propTime : 0,
+            propBol : false
         }
         /**
          * 绘制飞机
@@ -157,7 +166,7 @@ window.onload = function () {
          * @param iX    飞机在上一次绘制时的横纵坐标
          * @param iY
          */
-        plane.move = function (iX, iY, frame) {
+        plane.move = function (iX, iY) {
 
             //更新飞机的横纵坐标
             this.iX = iX - this.w / 2
@@ -206,7 +215,6 @@ window.onload = function () {
             } else if (blood >= 3 ) {
                 plane.blood = 3
             }
-
         }
         /**
          * 定义函数显示飞机血量
@@ -472,8 +480,7 @@ window.onload = function () {
         let pointerY = 0
         
         //监听飞机的按下事件
-        canvas.addEventListener(tapStart, function (e) {
-
+        document.addEventListener(tapStart, function (e) {
 
             pointerX = isTap ? e.targetTouches[0].pageX - wrap.offsetLeft : e.clientX - wrap.offsetLeft
             pointerY = isTap ? e.targetTouches[0].pageY - wrap.offsetTop : e.clientY - wrap.offsetTop
@@ -497,14 +504,13 @@ window.onload = function () {
                 if (pointerY > bombs[i].iY && pointerY < bombs[i].iY + bombs[i].h && pointerX > bombs[i].iX && bombs[i].iX < bombs[i].iX + bombs[i].w) {
                     enemy1s = []
                     enemy1Bullets = []
-                    console.log(enemy1s.length, enemy1Bullets.length);
                     bombs.splice(i, 1)
                     return
                 }
             }
         })
         //监听画布的移动事件
-        canvas.addEventListener(tapMove, function (e) {
+        document.addEventListener(tapMove, function (e) {
 
             if (isDown) {
                 pointerX = isTap ? e.targetTouches[0].pageX - wrap.offsetLeft : e.clientX - wrap.offsetLeft
@@ -515,7 +521,7 @@ window.onload = function () {
         })
 
         //监听画布的抬起事件
-        canvas.addEventListener(tapEnd, function (e) {
+        document.addEventListener(tapEnd, function (e) {
 
             isDown = false
             arrPointer = []
@@ -533,7 +539,7 @@ window.onload = function () {
             //绘制飞机
             plane.draw()
             //绘制飞机子弹
-            if (frame % 5 === 0) {
+            if (frame % 3 === 0) {
                 let bullet = new Bullet(bulletMold)
                 bullets.push(bullet)
             }
@@ -599,13 +605,8 @@ window.onload = function () {
             for (let i = 0; i < bombs.length; i++ ) {
                 bombs[i].draw()
             }
-            if(isGreen) {
-                plane.x = 0
-                if(frame % 180 === 0 ) {
-                    plane.x = plane.w
-                    isGreen = false
-                }
-            }
+            hasGreen()
+            hasPropBullet()
 
             if (frame > 10000) {
                 frame = 0
@@ -699,7 +700,6 @@ window.onload = function () {
                 plane.boom()
                 if (frame % 50 === 0) {
                     prompt.innerHTML = '被怼了,当前血量为:' + plane.blood
-                    console.log(plane.blood);
                     plane.x = plane.w
                     isPlaneRect = false
                 }
@@ -735,12 +735,13 @@ window.onload = function () {
                 }
             } else if (mold === 2 ) {
                 bulletMold = 2
+                plane.propBol = true
                 prompt.innerHTML = '获得"霖少",当前血量为' + plane.blood
             } else if (mold === 3 ) {
                 bulletMold = 3
+                plane.propBol = true
                 prompt.innerHTML = '获得"顶雲",当前血量为' + plane.blood
             } else if (mold === 4 ) {
-                console.log(bombNum);
                 if(bombNum < 3 ) {
                     bombNum ++
                 }
@@ -763,7 +764,6 @@ window.onload = function () {
                 for(let i = 0; i < bombNum; i++ ) {
                     let bomb = new Bomb(i + 1)
                     bombs.push(bomb)
-                    console.log(bombs.length);
                 }
                 getBomb = false
             }
@@ -810,23 +810,56 @@ window.onload = function () {
             }
             return false
         }
-        
+
+        /**
+         * 判断飞机是否变绿
+         */
+        function hasGreen(){
+            if(isGreen) {
+                plane.x = 0
+                if(frame % 180 === 0 ) {
+                    plane.x = plane.w
+                    isGreen = false
+                }
+            }
+        }
+        function hasPropBullet(){
+            if(plane.propBol) {
+                if(plane.propTime >= 200 ) {
+                    bulletMold = 1
+                    plane.propTime = 0
+                    plane.propBol = false
+                }
+                plane.propTime ++
+            }
+        }
         //定义游戏结束函数
         function gameOVer() {
-            console.log('gameOver');
             isDown = false
             gameWrap.style.display = 'none'
+            canvas.style.display = 'none'
             defeatWrap.style.display = 'block'
-            $('.gameWrap').hide()
-            $('#defeatWrap').show()
+            again.style.left = windowW / 2 - again.offsetWidth / 2
         }
-        defeatWrap.addEventListener(tapStart, function () {
+        defeatWrap.addEventListener(tapStart, function (e) {
             this.style.display = 'none'
             endWrap.style.display = 'block'
             resultP.innerHTML = '最终得分为:'+ score
+            close.addEventListener(tapStart,function () {
+                ranking.style.display = 'none'
+
+            })
         })
         again.addEventListener(tapStart, function () {
             location.reload()
+        })
+        gameRanking.addEventListener(tapStart,function () {
+            console.log('a');
+            ranking.style.display = 'block'
+        })
+        ranking.addEventListener(tapStart,function () {
+
+            ranking.style.display = 'none'
         })
         //定义取范围内的随机数
         function randomInt(from, to) {
