@@ -68,6 +68,16 @@
     border: 1px solid #4C4C4C;
     cursor: pointer;
 }
+.hint{
+    position: absolute;
+    left: 23%;
+    bottom: 40%;
+    width: 65%;
+    height: 7%;
+    font-size: 12px;
+    color: #640200;
+    font-weight: bold;
+}
 .gameWrap{
     display: none;
 }
@@ -115,8 +125,10 @@
     color: #ff6700;
 }
 .title_img{
+
     animation: rot 1s infinite alternate;
 }
+
 @keyframes rot {
     from{transform: rotate(-35deg) scale(0.8)}
     to{transform: rotate(35deg) scale(1)}

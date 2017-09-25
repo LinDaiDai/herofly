@@ -218,28 +218,32 @@ $(function () {
          * @constructor
          */
         function Bullet(bulletMold) {
-            //定义子弹样式, 子弹攻击力
-            let img, atk;
+            //定义子弹样式
+            let img , iX;
             this.mold = bulletMold
             //判断子弹的类型
             if(this.mold === 1){
                 img = bulletImg1
                 bulletAtk = 1
+                iX = plane.iX + 30
             } else if (this.mold === 2) {
                 img = bulletImg2
                 bulletAtk = 2
+                iX = plane.iX + 20
             } else if (this.mold === 3 ) {
                 img = bulletImg3
                 bulletAtk = 10000
+                iX = plane.iX + 20
             }
             this.img = img
             this.x = 0; //从什么位置开始截取图片
             this.y = 0;
             this.w = this.img.width; //截取图片的宽高
             this.h = this.img.height;
-            this.iX = plane.iX + 20;
+            this.iX = iX;
             this.iY = plane.iY;
             this.atk = bulletAtk
+
         }
 
         /**
@@ -247,9 +251,9 @@ $(function () {
          */
         Bullet.prototype.draw = function () {
             this.iY -= this.h;
-            if(bulletMold === 1) {
-                this.iX = plane.iX + plane.w / 2
-            }
+            // if(bulletMold === 1) {
+            //
+            // }
             ctx.drawImage(this.img, this.x, this.y, this.w, this.h, this.iX, this.iY, this.w, this.h)
         }
         //获取敌机1图片
@@ -288,7 +292,7 @@ $(function () {
                 imgW = 110
                 imgH = 164
                 speed = 2
-                blood = 5
+                blood = 2505
                 mold = 3
                 score = 5
             }
@@ -321,6 +325,7 @@ $(function () {
 
         Enemy1.prototype.boom = function () {
             this.blood -= bulletAtk;
+            this.x += this.w
             if (this.blood <= 0) {
                 this.x += this.w
                 if (this.x >= this.img.width - this.w) {
@@ -492,7 +497,7 @@ $(function () {
             //绘制飞机
             plane.draw()
             //绘制飞机子弹
-            if (frame % 10 === 0) {
+            if (frame % 5 === 0) {
                 let bullet = new Bullet(bulletMold)
                 bullets.push(bullet)
             }
@@ -503,7 +508,7 @@ $(function () {
                 enemy1s.push(enemy1)
             }
             //制造出敌机子弹
-            if (frame % 50 === 0) {
+            if (frame % 150 === 0) {
                 for (let s = 0; s < enemy1s.length; s++) {
                     let enemy1Bullet = new Enemy1Bullet(ctx, enemy1s[s].iX + enemy1s[s].w / 2 - enemy1s[s].w / 10, enemy1s[s].iY + enemy1s[s].h, enemy1s[s].mold)
                     enemy1Bullets.push(enemy1Bullet)
@@ -612,11 +617,14 @@ $(function () {
                     if (enemy1s[i].isRect) {                //若是激活了碰撞属性的敌机
                         enemy1s[i].boom()                   //调用敌机爆炸函数
                         if (frame % 50 === 0) {             //当帧数到达50时
-                            score += enemy1s[i].score       //加上碰撞的敌机对应的分数
-                            enemy1s.splice(i, 1)            //将当前这个敌机从原数组中删除
-                            i--
-                            scoreP.innerHTML = score + '分'  //显示分数
-                            isEnemyRect = false
+                            if(enemy1s[i].blood <= 0) {
+                                score += enemy1s[i].score       //加上碰撞的敌机对应的分数
+                                enemy1s.splice(i, 1)            //将当前这个敌机从原数组中删除
+                                i--
+                                scoreP.innerHTML = score + '分'  //显示分数
+                                isEnemyRect = false
+                            }
+
                         }
                     }
                 }
@@ -668,12 +676,19 @@ $(function () {
         function hasProp(frame){
             let mold = plane.isGet
             if (mold === 1 ) {
-                plane.x -= plane.w
-                plane.blood--
-                plane.boom()
-                prompt.innerHTML = '获得"龙云",当前血量为' + plane.blood
-                if(frame % 60 === 0 ) {
-                    plane.x = plane.w
+                if(plane.x >= plane.w) {
+                    if(plane.blood <= 1 ) {
+                        //清除动画
+                        animate = null
+                        gameOVer()
+                    }
+                    plane.x -= plane.w
+                    plane.blood--
+                    plane.boom()
+                    prompt.innerHTML = '获得"龙云",当前血量为' + plane.blood
+                    if(frame % 60 === 0 ) {
+                        plane.x = plane.w
+                    }
                 }
             } else if (mold === 2 ) {
                 bulletMold = 2
