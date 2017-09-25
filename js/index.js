@@ -67,7 +67,10 @@ $(function () {
         let scoreP = document.querySelector('#scoreP')
         let bloods = document.querySelector('.bloods')
         let prompt = document.querySelector('.prompt')
+        let windowW = document.body.clientWidth
+        let windowH = document.body.clientHeight
         let canvas = document.querySelector('#canvas')
+
         let cW = canvas.width,
             cH = canvas.height,
             ctx = canvas.getContext('2d')
@@ -326,11 +329,9 @@ $(function () {
         Enemy1.prototype.boom = function () {
             this.blood -= bulletAtk;
             this.x += this.w
-            if (this.blood <= 0) {
-                this.x += this.w
-                if (this.x >= this.img.width - this.w) {
-                    this.x = this.img.width - this.w
-                }
+            this.x += this.w
+            if (this.x >= this.img.width - this.w) {
+                this.x = this.img.width - this.w
             }
         }
         //获取敌机子弹图片
