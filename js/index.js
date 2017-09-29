@@ -517,6 +517,9 @@ window.onload = function () {
                 pointerY = isTap ? e.targetTouches[0].pageY - wrap.offsetTop : e.clientY - wrap.offsetTop
                 arrPointer.push([pointerX, pointerY])
                 plane.move(pointerX, pointerY)
+                if(isTap) {
+                    e.preventDefaults()
+                }
             }
         })
 
@@ -525,6 +528,9 @@ window.onload = function () {
 
             isDown = false
             arrPointer = []
+            if(isTap) {
+                e.preventDefaults()
+            }
         })
 
         animate()

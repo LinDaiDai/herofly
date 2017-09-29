@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>爆炸飞机切换</title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    let windowW = document.body.clientWidth
+    let windowH = document.body.clientHeight
+    let canvas = document.querySelector('#canvas')
+    canvas.width = windowW
+    canvas.height = windowH
+    let ctx = canvas.getContext('2d')
+    let frame = 0       //帧数
+    let img1 = new Image()
+    img1.src = 'img/herofly.png'
+
+    //定义变量:图片截取的位置(x,y) 图片截取的宽高(w,h) 整张大图的宽度, 截取的飞机在canvas中的位置(iX, iY)
+    let x = 0, y = 0, w = 66, h = 82, img1W = 330, iX = 0, iY = 0;
+
+    animate()
+    function animate() {
+        //定义一个帧数的变量,函数每一帧执行一次,则frame就加一次,以此记录帧数
+        frame++
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        //每过20帧执行一次 x += w 以此达到切换图片的效果
+        if(frame % 20 === 0 ) {
+            x += w
+            if (x >= img1W - w) {   //判定当走到最后一张爆炸图的时候,让x又等于0, 达到无限动画的效果
+                x = 0
+            }
+        }
+        //每隔一帧就执行绘画飞机的操作
+        ctx.drawImage(img1, x, y, w, h, iX, iY, w, h)
+
+        //为避免frame加到太大,在这里做一个当frame加到10000时,又让它为0的操作
+        if(frame > 10000 ) {
+            frame = 0
+        }
+
+        //利用requestAnimationFrame达到动画效果
+        requestAnimationFrame(animate)
+    }
+</script>
+</body>
+</html>
