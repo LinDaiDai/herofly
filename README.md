@@ -45,22 +45,22 @@ this is a mobile game of herofly
 
 #### 1. 主页面
 
-![home](E:\herofly\img\readme\home.png)
+![home](https://github.com/LinDaiDai/herofly/blob/master/img/readme/home.png?raw=true)
 
 
 
 #### 2. 游戏规则
 
-![rule](E:\herofly\img\readme\rule.png)
+![rule](https://github.com/LinDaiDai/herofly/blob/master/img/readme/rule.png?raw=true)
 
 
 
 ####3. 战斗页面
 
-![fight](E:\herofly\img\readme\fight.png)
+![fight](https://github.com/LinDaiDai/herofly/blob/master/img/readme/fight.png?raw=true)
 
 
 
 #### 4.游戏结束
 
-![gameover](E:\herofly\img\readme\gameover.png)
+![gameover](https://github.com/LinDaiDai/herofly/blob/master/img/readme/gameover.png?raw=true)
