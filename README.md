@@ -55,7 +55,7 @@ this is a mobile game of herofly
 
 
 
-####3. 战斗页面
+#### 3. 战斗页面 
 
 ![fight](https://github.com/LinDaiDai/herofly/blob/master/img/readme/fight.png?raw=true)
 
