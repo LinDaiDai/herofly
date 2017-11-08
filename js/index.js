@@ -2,8 +2,10 @@
  * Created by Administrator on 2017/9/21.
  */
 
-
 window.onload = function () {
+    document.querySelector('body').addEventListener('touchstart', function (ev) {
+        event.preventDefault();
+    });
     let windowW = document.body.clientWidth
     let windowH = document.body.clientHeight
     let score = 0;              //分数
