@@ -1,23 +1,14 @@
 /**
  * Created by Administrator on 2017/9/21.
  */
-<<<<<<< HEAD
-// document.querySelector('body').addEventListener('touchstart', function (ev) {
-//     event.preventDefault();
-// });
 
-=======
->>>>>>> a2d44f98621416682706b2d727588398e8f075fa
 document.addEventListener('touchstart', function (ev) {
     event.preventDefault();
 })
 document.addEventListener('touchmove', function (ev) {
     event.preventDefault();
 })
-<<<<<<< HEAD
 
-=======
->>>>>>> a2d44f98621416682706b2d727588398e8f075fa
 window.onload = function () {
     let windowW = document.body.clientWidth
     let windowH = document.body.clientHeight
