@@ -1,7 +1,9 @@
 /**
  * Created by Administrator on 2017/9/21.
  */
-
+document.querySelector('body').addEventListener('touchstart', function (ev) {
+    event.preventDefault();
+});
 window.onload = function () {
     let windowW = document.body.clientWidth
     let windowH = document.body.clientHeight
@@ -74,10 +76,6 @@ window.onload = function () {
         tapStart = isTap ? "touchstart" : "mousedown",
         tapMove = isTap ? "touchmove" : "mousemove",
         tapEnd = isTap ? "touchend" : "mouseup"
-
-    document.querySelector('body').addEventListener(tapStart, function (ev) {
-        event.preventDefault();
-    });
     startBtn.addEventListener(tapStart,function () {
         startWrap.style.display = 'none'
         ranking.style.display = 'block'
