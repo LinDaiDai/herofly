@@ -80,11 +80,7 @@ window.onload = function () {
         tapStart = isTap ? "touchstart" : "mousedown",
         tapMove = isTap ? "touchmove" : "mousemove",
         tapEnd = isTap ? "touchend" : "mouseup"
-<<<<<<< HEAD
 
-
-=======
->>>>>>> a2d44f98621416682706b2d727588398e8f075fa
     startBtn.addEventListener(tapStart,function () {
         startWrap.style.display = 'none'
         ranking.style.display = 'block'
