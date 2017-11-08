@@ -21,7 +21,10 @@ this is a mobile game of herofly
 
 ```
 <script type='text/javascript'>
-document.querySelector('body').addEventListener('touchstart', function (ev) {
+document.addEventListener('touchstart', function (event) {
+    event.preventDefault();
+});
+document.addEventListener('touchmove', function (event) {
     event.preventDefault();
 });
 </script>
