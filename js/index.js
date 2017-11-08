@@ -3,9 +3,6 @@
  */
 
 window.onload = function () {
-    document.querySelector('body').addEventListener('touchstart', function (ev) {
-        event.preventDefault();
-    });
     let windowW = document.body.clientWidth
     let windowH = document.body.clientHeight
     let score = 0;              //分数
@@ -77,6 +74,10 @@ window.onload = function () {
         tapStart = isTap ? "touchstart" : "mousedown",
         tapMove = isTap ? "touchmove" : "mousemove",
         tapEnd = isTap ? "touchend" : "mouseup"
+
+    document.querySelector('body').addEventListener(tapStart, function (ev) {
+        event.preventDefault();
+    });
     startBtn.addEventListener(tapStart,function () {
         startWrap.style.display = 'none'
         ranking.style.display = 'block'
