@@ -4,8 +4,6 @@
     list-style: none;
 }
 html, body, .wrap{
-    max-width: 600px;
-    margin: 0 auto;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -23,6 +21,7 @@ html, body, .wrap{
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 .loadingWrap{
     background: black;
