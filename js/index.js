@@ -1,6 +1,12 @@
 /**
  * Created by Administrator on 2017/9/21.
  */
+document.addEventListener('touchstart', function (event) {
+    event.preventDefault()
+})
+document.addEventListener('touchmove', function (event) {
+    event.preventDefault()
+})
 window.onload = function () {
     let windowW = document.body.clientWidth
     let windowH = document.body.clientHeight
