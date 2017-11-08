@@ -1,14 +1,6 @@
 /**
  * Created by Administrator on 2017/9/21.
  */
-
-document.addEventListener('touchstart', function (ev) {
-    event.preventDefault();
-})
-document.addEventListener('touchmove', function (ev) {
-    event.preventDefault();
-})
-
 window.onload = function () {
     let windowW = document.body.clientWidth
     let windowH = document.body.clientHeight
@@ -80,6 +72,7 @@ window.onload = function () {
         tapStart = isTap ? "touchstart" : "mousedown",
         tapMove = isTap ? "touchmove" : "mousemove",
         tapEnd = isTap ? "touchend" : "mouseup"
+
 
     startBtn.addEventListener(tapStart,function () {
         startWrap.style.display = 'none'
@@ -499,7 +492,9 @@ window.onload = function () {
                 isDown = true
                 arrPointer.push([pointerX, pointerY])
                 plane.move(pointerX, pointerY)
-
+                // if(isTap) {
+                //     e.preventDefaults()
+                // }
 
             }
             //判断按下的位置在不在炸弹的范围内
@@ -521,7 +516,9 @@ window.onload = function () {
                 pointerY = isTap ? e.targetTouches[0].pageY - wrap.offsetTop : e.clientY - wrap.offsetTop
                 arrPointer.push([pointerX, pointerY])
                 plane.move(pointerX, pointerY)
-
+                // if(isTap) {
+                //     e.preventDefaults()
+                // }
             }
         })
 
@@ -530,7 +527,9 @@ window.onload = function () {
 
             isDown = false
             arrPointer = []
-
+            // if(isTap) {
+            //     e.preventDefaults()
+            // }
         })
 
         animate()
