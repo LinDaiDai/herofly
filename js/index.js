@@ -512,9 +512,7 @@ window.onload = function () {
                 isDown = true
                 arrPointer.push([pointerX, pointerY])
                 plane.move(pointerX, pointerY)
-                if(isTap) {
-                    e.preventDefaults()
-                }
+
 
             }
             //判断按下的位置在不在炸弹的范围内
@@ -536,9 +534,7 @@ window.onload = function () {
                 pointerY = isTap ? e.targetTouches[0].pageY - wrap.offsetTop : e.clientY - wrap.offsetTop
                 arrPointer.push([pointerX, pointerY])
                 plane.move(pointerX, pointerY)
-                if(isTap) {
-                    e.preventDefaults()
-                }
+
             }
         })
 
@@ -547,9 +543,7 @@ window.onload = function () {
 
             isDown = false
             arrPointer = []
-            if(isTap) {
-                e.preventDefaults()
-            }
+
         })
 
         animate()
