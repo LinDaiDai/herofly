@@ -67,9 +67,6 @@ window.onload = function () {
             hint.style.left = windowW / 2 - hint.offsetWidth / 2 + 'px'
         }
     })
-    document.querySelector('body').addEventListener('touchstart', function (ev) {
-        event.preventDefault();
-    });
 
     //获取是pc端还是移动端
     let isTap = "ontouchstart" in window ? true : false,
