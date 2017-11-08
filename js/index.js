@@ -1,9 +1,7 @@
 /**
  * Created by Administrator on 2017/9/21.
  */
-document.querySelector('body').addEventListener('touchstart', function (ev) {
-    event.preventDefault();
-});
+
 window.onload = function () {
     let windowW = document.body.clientWidth
     let windowH = document.body.clientHeight
@@ -69,7 +67,9 @@ window.onload = function () {
             hint.style.left = windowW / 2 - hint.offsetWidth / 2 + 'px'
         }
     })
-
+    document.querySelector('body').addEventListener('touchstart', function (ev) {
+        event.preventDefault();
+    });
 
     //获取是pc端还是移动端
     let isTap = "ontouchstart" in window ? true : false,
