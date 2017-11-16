@@ -129,14 +129,14 @@ document.addEventListener('touchmove', function (event) {
 
 #### 4.游戏结束
 
-![gameover](E:\herofly\img\readme\gameover.png)
+![gameover](https://github.com/LinDaiDai/herofly/blob/master/img/readme/gameover.png?raw=true)
 
 
 
 #### 后文
 
-"英雄战机"这款移动端小游戏算是我真正意义上能够使用canvas来写一些东西的证明了.
+"英雄战机"这款移动端小游戏是在工作之余做的一款小游戏,借此使自己能更加熟练的运用Canvas进行一些绘图及动画效果实现,同时也能提高提高自己的算法能力.
 
-游戏界面上的一些素材有一些是借鉴其他小游戏的,但像补给包等图片是由我身后的神秘美工设计的,也算是花了一些心思.
+游戏界面上的一些素材有一小部分是借鉴其他小游戏的,但大部分像补给包等图片是由我身后的神秘设计师设计的,也算是花了一些心思.
 
 这款游戏到现在也只是实现了一些像歼灭敌机,获得补给包,使用炸弹等小功能,对于后期的完善以及优化也希望大家能参与进来,一起扩大它.喜欢的朋友别忘了点个Star喲(＾Ｕ＾)ノ~ＹＯ,谢谢.
