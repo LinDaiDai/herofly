@@ -2,7 +2,7 @@
 loading: 用于加载图片
 @imgs: 要加载的图片对象 必填参数
 @prop: 进度的回调      可选
-@complete: 完成的回调  可选
+@complete: 完成的回调函数  可选
 */
 function loading (obj) {
   
